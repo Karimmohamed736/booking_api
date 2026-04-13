@@ -3,8 +3,14 @@
 3- add table books with model and migration
 4- make seeder for USER and BOOK then migrate with seed
 
+//Auth
 5- Install sanctum api (php artisan install:api) then Add HasApiToken to model
 6- Make controller for auth which has (Register, Login, Logout) then make the Route
 7- Make request for validation and Make Resource for custom your API response
 8- Open postman to create collection and requests for our project
 9- Make Variable local (http://127.0.0.1:8000/api) and put form-data columns in Body then post url {{local}}register
+
+//CRUD
+1- Category model -mc
+2- add Requests, Resources
+3- Create middleware for admin role to create, update and delete
