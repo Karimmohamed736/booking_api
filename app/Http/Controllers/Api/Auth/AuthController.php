@@ -91,20 +91,20 @@ class AuthController extends Controller
         $token = $user->createToken('ApiToken')->plainTextToken;
 
         return response()->json([
-                'success' => 'true',
-                'Token'=>$token,
-                'user'=>new UserResource($user)
-            ], 200);
+            'success' => 'true',
+            'Token' => $token,
+            'user' => new UserResource($user)
+        ], 200);
     }
 
 
-    public function logout(Request $request){
+    public function logout(Request $request)
+    {
 
         $request->user()->currentAccessToken()->delete();  //delete token of user
-            return response()->json([
-                'success' => true,
-                'message' => 'Logged out Successfully'
-            ], 200);
-
+        return response()->json([
+            'success' => true,
+            'message' => 'Logged out Successfully'
+        ], 200);
     }
 }
