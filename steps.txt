@@ -9,3 +9,8 @@
 7- Make request for validation and Make Resource for custom your API response
 8- Open postman to create collection and requests for our project
 9- Make Variable local (http://127.0.0.1:8000/api) and put form-data columns in Body then post url {{local}}register
+
+//CRUD
+1- Category model -mc
+2- add Requests, Resources
+3- Create middleware for admin role to create, update and delete
