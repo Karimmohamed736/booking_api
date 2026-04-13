@@ -13,4 +13,4 @@
 //CRUD
 1- Category model -mc
 2- add Requests, Resources
-3- Create middleware for admin role to create, update and delete
+3- Create middleware for admin role for the create, update and delete
