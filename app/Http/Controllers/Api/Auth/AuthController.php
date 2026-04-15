@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
+use App\Notifications\EmailVerificationNotify;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -34,7 +35,6 @@ class AuthController extends Controller
                 'name' => 'required|string|max:255',
                 'email' => 'required|email|max:255|unique:users,email',
                 'password' => ['required', Password::min(8)->letters()->symbols()->mixedCase()->numbers()],
-                'role' => 'required|in:user,admin'
             ],
 
             [
@@ -64,11 +64,14 @@ class AuthController extends Controller
         //create Token (that tken send by Authorization Bearer Token in postman to the front-end)
         $token = $user->createToken('ApiToken')->plainTextToken;
 
+        $user->notify(new EmailVerificationNotify);  //send notification to user to verify email
+
         return response()->json([
             'success' => true,
             'message' => 'User Created Successfully',
             'token' => $token
         ], 201);
+
     }
 
     public function login(LoginRequest $request)
@@ -80,7 +83,7 @@ class AuthController extends Controller
         $credentials = $request->only('email', 'password');
         if (!Auth::attempt($credentials)) {
             return response()->json([
-                'success' => 'false',
+                'success' => false,
                 'message' => 'Email or Password Not Corrrect'
             ], 401);
         }
@@ -91,7 +94,7 @@ class AuthController extends Controller
         $token = $user->createToken('ApiToken')->plainTextToken;
 
         return response()->json([
-            'success' => 'true',
+            'success' => true,
             'Token' => $token,
             'user' => new UserResource($user)
         ], 200);

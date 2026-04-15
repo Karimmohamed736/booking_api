@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\Auth\AuthController;
+use App\Http\Controllers\Api\Auth\EmailVerificationController;
 use App\Http\Controllers\CategoryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -27,4 +28,9 @@ Route::middleware(['auth:sanctum', 'role:admin'])->controller(CategoryController
     Route::post('create-category', 'create');
     Route::put('update-category/{id}', 'update');
     Route::delete('delete-category/{id}', 'delete');
+});
+
+
+Route::middleware('auth:sanctum')->group(function(){
+    Route::post('verify-email',[EmailVerificationController::class,'verifyEmail']);
 });
