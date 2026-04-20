@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\Auth\EmailVerificationController;
+use App\Http\Controllers\Api\Event\EventController;
 use App\Http\Controllers\CategoryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -25,6 +26,7 @@ Route::controller(CategoryController::class)->group(function () {
 });
 
 Route::middleware(['auth:sanctum', 'role:admin'])->controller(CategoryController::class)->group(function () {
+    //Category
     Route::post('create-category', 'create');
     Route::put('update-category/{id}', 'update');
     Route::delete('delete-category/{id}', 'delete');
@@ -34,3 +36,19 @@ Route::middleware(['auth:sanctum', 'role:admin'])->controller(CategoryController
 Route::middleware('auth:sanctum')->group(function(){
     Route::post('verify-email',[EmailVerificationController::class,'verifyEmail']);
 });
+
+
+Route::controller(EventController::class)->group(function(){
+    Route::get('all-events','index');
+    Route::get('all-events-w-category','allWithCategory');
+
+    Route::get('show-events/{id}','show');
+    Route::get('show-events-w-category/{id}','showWithCategory');
+});
+
+Route::middleware(['auth:sanctum', 'role:admin'])->controller(EventController::class)->group(function () {
+
+    //Event
+    Route::post('create-event','create');
+});
+

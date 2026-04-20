@@ -14,3 +14,21 @@
 1- Category model -mc
 2- add Requests, Resources
 3- Create middleware for admin role for the create, update and delete
+4- use service layer for clean code
+5- Make Routes
+
+
+//Email Verification (Docs)
+
+//Event Table
+1- make model that has relation with category model
+2- CRUD using Requests, Resources, Service layer
+3- Make Routes
+
+//Media
+1- install package spatie laravel media
+2- publish any files that package has
+3- migrate any database
+4- implement HasMedia in model
+5- create image in function create in controller
+6- show image in resources by function getMedia
