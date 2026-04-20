@@ -31,4 +31,5 @@
 3- migrate any database
 4- implement HasMedia in model
 5- create image in function create in controller
-6- show image in resources by function getMedia
+6- show image in resources by function getMedia and url
+7- then php artisan Storage:link
