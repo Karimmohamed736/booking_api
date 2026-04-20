@@ -50,5 +50,7 @@ Route::middleware(['auth:sanctum', 'role:admin'])->controller(EventController::c
 
     //Event
     Route::post('create-event','create');
+    Route::post('update-event/{event}','update');
+    Route::delete('delete-event/{event}','delete');
 });
 

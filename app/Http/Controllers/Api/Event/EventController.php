@@ -4,10 +4,10 @@ namespace App\Http\Controllers\Api\Event;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\EventRequest;
+use App\Http\Requests\UpdateEventRequest;
 use App\Http\Resources\EventResource;
-use App\Http\Services\EventService;
 use App\Models\Event;
-use Illuminate\Http\Request;
+use App\Services\EventService;
 
 class EventController extends Controller
 {
@@ -17,9 +17,15 @@ class EventController extends Controller
     {
         $this->eventService = $eventService;
     }
-    /**
-     * Display a listing of the resource.
-     */
+
+    private function notFound()
+    {
+        return response()->json([
+            'success' => false,
+            'message' => 'Event Not Found',
+        ], 404);
+    }
+
     public function index()
     {
         $events = $this->eventService->index();
@@ -64,16 +70,13 @@ class EventController extends Controller
         $event = $this->eventService->show($id);
 
         if (!$event) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Event Not Found'
-            ], 404);
+            return $this->notFound();
         }
 
         return response()->json([
             'success' => true,
             'event' => new EventResource($event),
-        ]);
+        ],200);
     }
 
     public function showWithCategory($id)
@@ -81,39 +84,38 @@ class EventController extends Controller
         $event = $this->eventService->showWithCategory($id);
 
         if (!$event) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Event Not Found'
-            ], 404);
+            return $this->notFound();
         }
 
         return response()->json([
             'success' => true,
             'event' => new EventResource($event),
-        ]);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Event $event)
-    {
-        //
+        ],200);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Event $event)
+    public function update(UpdateEventRequest $request, Event $event)
     {
-        //
+        $this->eventService->update($event, $request->validated());
+        return response()->json([
+            'success' => true,
+            'message' => 'Event Updated Successfully'
+        ], 200);
+
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Event $event)
+    public function delete(Event $event)
     {
-        //
+
+        $this->eventService->delete($event);
+        return response()->json([
+            'success' => true,
+            'message' => 'Event Deleted Successfully'
+        ], 200);
     }
 }

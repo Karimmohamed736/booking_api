@@ -2,9 +2,10 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class EventRequest extends FormRequest
+class UpdateEventRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,12 +23,12 @@ class EventRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'required|max:20|string' ,
-            'description' => 'nullable|string',
-            'location' =>'nullable' ,
-            'start_date'=>'required|date',
-            'available_seats'=>'required|integer|min:0',
-            'category_id'=> 'required|integer|exists:categories,id'
+            'title'           => 'sometimes|max:20|string',
+            'description'     => 'sometimes|nullable|string',
+            'location'        => 'sometimes|nullable',
+            'start_date'      => 'sometimes|date',
+            'available_seats' => 'sometimes|integer|min:0',
+            'category_id'     => 'sometimes|integer|exists:categories,id'
         ];
     }
 }
