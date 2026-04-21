@@ -11,7 +11,7 @@ class EventService
 
     public function index()
     {
-        return Event::all();
+        return Event::Available()->get();
     }
 
     public function allWithCategory()

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -9,7 +10,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 class Event extends Model implements HasMedia
 {
     use InteractsWithMedia;
-    
+
     protected $fillable = [
         'title',
         'description',
@@ -21,5 +22,9 @@ class Event extends Model implements HasMedia
 
     public function category(){
         return $this->belongsTo(Category::class);
+    }
+
+    public function scopeAvailable(Builder $q){
+        return $q->where('available_seats', '>', 2);
     }
 }

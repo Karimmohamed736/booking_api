@@ -8,7 +8,6 @@ use App\Http\Requests\UpdateEventRequest;
 use App\Http\Resources\EventResource;
 use App\Models\Event;
 use App\Services\EventService;
-
 class EventController extends Controller
 {
 
@@ -46,9 +45,7 @@ class EventController extends Controller
         ], 200);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+
     public function create(EventRequest $request)
     {
         //validation and create (service layer)
@@ -62,9 +59,7 @@ class EventController extends Controller
         ], 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
+
     public function show($id)
     {
         $event = $this->eventService->show($id);
@@ -93,9 +88,7 @@ class EventController extends Controller
         ],200);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+
     public function update(UpdateEventRequest $request, Event $event)
     {
         $this->eventService->update($event, $request->validated());
@@ -106,9 +99,7 @@ class EventController extends Controller
 
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+
     public function delete(Event $event)
     {
 
