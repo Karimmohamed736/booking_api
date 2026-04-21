@@ -24,6 +24,8 @@
 1- make model that has relation with category model
 2- CRUD using Requests, Resources, Service layer
 3- Make Routes
+4- add scope in model to get only available events (start_date > now and available_seats > 0)
+5- add this scope in index function in service layer
 
 //Media
 1- install package spatie laravel media

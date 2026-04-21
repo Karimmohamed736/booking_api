@@ -46,10 +46,10 @@ Route::controller(EventController::class)->group(function(){
     Route::get('show-events-w-category/{id}','showWithCategory');
 });
 
-Route::middleware(['auth:sanctum', 'role:admin'])->controller(EventController::class)->group(function () {
+Route::middleware(['auth:sanctum', 'role:admin', 'throttle:api'])->controller(EventController::class)->group(function () {
 
     //Event
-    Route::post('create-event','create');
+    Route::post('create-event','create'); //throttle for limit the number of request
     Route::post('update-event/{event}','update');
     Route::delete('delete-event/{event}','delete');
 });
