@@ -24,7 +24,7 @@ class AppServiceProvider extends ServiceProvider
         RateLimiter::for('api', function(){
             return Limit::perMinute(5)->response(function(){
                 return response()->json([
-                    'message'=>'Too many attempsm try again later.'
+                    'message'=>'Too many attemps try again later.'
                 ],429);
             });
         });

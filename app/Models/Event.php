@@ -27,4 +27,9 @@ class Event extends Model implements HasMedia
     public function scopeAvailable(Builder $q){
         return $q->where('available_seats', '>', 2);
     }
+
+    public function books()
+    {
+        return $this->hasMany(Book::class);
+    }
 }

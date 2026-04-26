@@ -8,14 +8,20 @@ use App\Http\Requests\UpdateEventRequest;
 use App\Http\Resources\EventResource;
 use App\Models\Event;
 use App\Services\EventService;
+use App\Services\MediaService;
+
 class EventController extends Controller
 {
 
     protected $eventService;
-    public function __construct(EventService $eventService)
+    protected $mediaService;
+
+    public function __construct(EventService $eventService, MediaService $mediaService)
     {
         $this->eventService = $eventService;
+        $this->mediaService = $mediaService; //for image handling
     }
+
 
     private function notFound()
     {
@@ -50,7 +56,8 @@ class EventController extends Controller
     {
         //validation and create (service layer)
         $event = $this->eventService->create($request->validated());
-        $event->addMedia($request->file('image'))->toMediaCollection('main_image');
+        //handle media upload
+        $this->mediaService->createMedia($request->file('image'),$event,'main_image');
 
 
         return response()->json([
@@ -92,6 +99,8 @@ class EventController extends Controller
     public function update(UpdateEventRequest $request, Event $event)
     {
         $this->eventService->update($event, $request->validated());
+
+
         return response()->json([
             'success' => true,
             'message' => 'Event Updated Successfully'

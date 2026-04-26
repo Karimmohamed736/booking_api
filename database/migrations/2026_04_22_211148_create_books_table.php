@@ -13,10 +13,9 @@ return new class extends Migration
     {
         Schema::create('books', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->decimal('price');
-            $table->text('desc');
-            $table->string('image')->nullable();
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('event_id')->constrained()->cascadeOnDelete();
+            $table->enum('status',['pending','accepted','rejected'])->default('pending');
             $table->timestamps();
         });
     }
