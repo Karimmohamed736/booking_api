@@ -27,7 +27,9 @@ class EventRequest extends FormRequest
             'location' =>'nullable' ,
             'start_date'=>'required|date',
             'available_seats'=>'required|integer|min:0',
-            'category_id'=> 'required|integer|exists:categories,id'
+            'category_id'=> 'required|integer|exists:categories,id',
+            'images' => 'required|array', // Validate as an array of files
+            'images.*' => 'image|' // Validate each file in the array
         ];
     }
 }

@@ -28,7 +28,8 @@ class UpdateEventRequest extends FormRequest
             'location'        => 'sometimes|nullable',
             'start_date'      => 'sometimes|date',
             'available_seats' => 'sometimes|integer|min:0',
-            'category_id'     => 'sometimes|integer|exists:categories,id'
+            'category_id'     => 'sometimes|integer|exists:categories,id',
+            'image'           => 'nullable|file|image|max:2048', // Optional image field
         ];
     }
 }

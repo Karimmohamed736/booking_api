@@ -54,10 +54,16 @@ class EventController extends Controller
 
     public function create(EventRequest $request)
     {
+        // dd($request);
         //validation and create (service layer)
         $event = $this->eventService->create($request->validated());
         //handle media upload
-        $this->mediaService->createMedia($request->file('image'),$event,'main_image');
+
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                $this->mediaService->createMedia($image, $event, 'images');
+            }
+        }
 
 
         return response()->json([
@@ -100,6 +106,9 @@ class EventController extends Controller
     {
         $this->eventService->update($event, $request->validated());
 
+        if ($request->hasFile('image')) {
+            $this->mediaService->updateMedia($request->file('image'), $event, 'main_image');
+        }
 
         return response()->json([
             'success' => true,
@@ -113,6 +122,8 @@ class EventController extends Controller
     {
 
         $this->eventService->delete($event);
+        $this->mediaService->deleteMedia($event, 'main_image');
+
         return response()->json([
             'success' => true,
             'message' => 'Event Deleted Successfully'

@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\Auth\EmailVerificationController;
 use App\Http\Controllers\Api\Event\EventController;
+use App\Http\Controllers\Book\BookController;
 use App\Http\Controllers\CategoryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -54,3 +55,6 @@ Route::middleware(['auth:sanctum', 'role:admin', 'throttle:api'])->controller(Ev
     Route::delete('delete-event/{event}','delete');
 });
 
+Route::middleware('auth:sanctum', 'role:user')->group(function(){
+    Route::post('book-event/{event_id}',[BookController::class,'bookEvent']);
+});
