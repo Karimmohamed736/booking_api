@@ -5,6 +5,8 @@ use App\Http\Controllers\Api\Auth\EmailVerificationController;
 use App\Http\Controllers\Api\Event\EventController;
 use App\Http\Controllers\Book\BookController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\Payment\CreditController;
+use App\Http\Controllers\PaymentController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -19,6 +21,12 @@ Route::controller(AuthController::class)->group(function () {
     Route::delete('logout', 'logout')->middleware('auth:sanctum'); //this middlware get the currnt user to logout
 });
 
+// Email Verification
+Route::middleware('auth:sanctum')->group(function(){
+    Route::post('verify-email',[EmailVerificationController::class,'verifyEmail']);
+});
+
+
 //CRUD
 Route::controller(CategoryController::class)->group(function () {
     Route::get('all-categories', 'index');
@@ -31,11 +39,6 @@ Route::middleware(['auth:sanctum', 'role:admin'])->controller(CategoryController
     Route::post('create-category', 'create');
     Route::put('update-category/{id}', 'update');
     Route::delete('delete-category/{id}', 'delete');
-});
-
-
-Route::middleware('auth:sanctum')->group(function(){
-    Route::post('verify-email',[EmailVerificationController::class,'verifyEmail']);
 });
 
 
@@ -58,3 +61,12 @@ Route::middleware(['auth:sanctum', 'role:admin', 'throttle:api'])->controller(Ev
 Route::middleware('auth:sanctum', 'role:user')->group(function(){
     Route::post('book-event/{event_id}',[BookController::class,'bookEvent']);
 });
+
+//payment
+Route::post('/payment/process', [PaymentController::class, 'paymentProcess']);
+Route::post('/payment/callback', [PaymentController::class, 'callBack']);
+
+Route::get('/payment/success', [PaymentController::class, 'success']);
+
+Route::get('/payment/failed', [PaymentController::class, 'failed']);
+

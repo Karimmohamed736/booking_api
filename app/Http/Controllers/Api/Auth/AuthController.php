@@ -90,6 +90,13 @@ class AuthController extends Controller
 
         $user = Auth::user(); //get all data of the user login
 
+        if (!$user->email_verified_at) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Please Verify Your Email'
+            ], 403);
+        }
+
         $user->tokens()->delete();  //delete old tokens
         $token = $user->createToken('ApiToken')->plainTextToken;
 
