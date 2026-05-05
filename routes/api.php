@@ -5,7 +5,6 @@ use App\Http\Controllers\Api\Auth\EmailVerificationController;
 use App\Http\Controllers\Api\Event\EventController;
 use App\Http\Controllers\Book\BookController;
 use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\Payment\CreditController;
 use App\Http\Controllers\PaymentController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -33,8 +32,8 @@ Route::controller(CategoryController::class)->group(function () {
     Route::get('show-category/{id}', 'show');
 });
 
+//Category
 Route::middleware(['auth:sanctum', 'role:admin'])->controller(CategoryController::class)->group(function () {
-    //Category
     Route::post('create-category', 'create');
     Route::put('update-category/{id}', 'update');
     Route::delete('delete-category/{id}', 'delete');
@@ -49,21 +48,22 @@ Route::controller(EventController::class)->group(function(){
     Route::get('show-events-w-category/{id}','showWithCategory');
 });
 
+//Event
 Route::middleware(['auth:sanctum', 'role:admin', 'throttle:api'])->controller(EventController::class)->group(function () {
-
-    //Event
     Route::post('create-event','create'); //throttle for limit the number of request
     Route::put('update-event/{event}','update');
     Route::delete('delete-event/{event}','delete');
 });
 
-Route::middleware(['auth:sanctum', 'role:user'])->group(function(){
-    Route::post('book-event/{event_id}',[BookController::class,'bookEvent']);
+Route::middleware(['auth:sanctum', 'role:user'])->controller(BookController::class)->group(function(){
+    Route::post('book-event/{event_id}', 'bookEvent');
+    Route::get('my-bookings', 'myBookings');
+    Route::delete('cancel-booking/{id}', 'cancelBooking');
 });
 
 //payment
-Route::middleware(['auth:sanctum', 'role:user'])->group(function(){
-Route::post('/payment/process', [PaymentController::class, 'paymentProcess']);
+Route::middleware(['auth:sanctum', 'role:user'])->controller(PaymentController::class)->group(function(){
+    Route::post('/payment/process', 'paymentProcess');
 });
 Route::post('/payment/callback', [PaymentController::class, 'callBack']);
 

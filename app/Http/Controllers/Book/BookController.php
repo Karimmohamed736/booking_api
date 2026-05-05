@@ -75,4 +75,48 @@ class BookController extends Controller
             'book' => new BookingResource($book),
         ], 201);
     }
+
+    public function myBookings()
+    {
+        $bookings = Book::where('user_id', Auth::id())
+            ->with('event')
+            ->latest()
+            ->get();
+
+        return response()->json([
+            'success'  => true,
+            'bookings' => BookingResource::collection($bookings),
+        ], 200);
+    }
+
+    public function cancelBooking($id)
+    {
+        $booking = Book::where('id', $id)
+            ->where('user_id', Auth::id()) // Ensure the booking belongs to the authenticated user
+            ->with('event')
+            ->first();
+
+        if (!$booking) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Booking Not Found.',
+            ], 404);
+        }
+
+        if ($booking->status === 'cancelled') {
+            return response()->json([
+                'success' => false,
+                'message' => 'Booking is already cancelled.',
+            ], 409);
+        }
+
+        $booking->event->increment('available_seats');
+
+        $booking->update(['status' => 'cancelled']);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Booking Cancelled Successfully.',
+        ], 200);
+    }
 }
