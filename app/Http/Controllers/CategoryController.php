@@ -21,7 +21,7 @@ class CategoryController extends Controller
         $categories = $this->categoryService->index();
 
         return response()->json([
-            'status' => true,
+            'success' => true,
             'message' => 'Categories retrieved successfully',
             'categories' => CategoryResource::collection($categories)
         ], 200);
@@ -34,7 +34,7 @@ class CategoryController extends Controller
     private function notFoundResponse()
     {
         return response()->json([
-            'status' => false,
+            'success' => false,
             'message' => 'Category Not Found',
         ], 404);
     }
@@ -48,7 +48,7 @@ class CategoryController extends Controller
         }
 
         return response()->json([
-            'status' => true,
+            'success' => true,
             'category' => new CategoryResource($category)
         ], 200);
     }
@@ -59,7 +59,7 @@ class CategoryController extends Controller
         $category = $this->categoryService->create($request->validated());  //service and validate in one row
 
         return response()->json([
-            'status' => true,
+            'success' => true,
             'message' => 'Category Created Successfully',
             'category' => new CategoryResource($category),
         ], 201);
@@ -80,7 +80,7 @@ class CategoryController extends Controller
         ]);
 
         return response()->json([
-            'status' => true,
+            'success' => true,
             'message' => "Category Updated Successfully",
             'category' => new CategoryResource($category)
         ], 200);
@@ -96,7 +96,7 @@ class CategoryController extends Controller
 
         $category->delete();
         return response()->json([
-            'status' => true,
+            'success' => true,
             'message' => 'Category Deleted Successfully'
         ], 200);
     }

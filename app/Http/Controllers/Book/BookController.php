@@ -30,7 +30,7 @@ class BookController extends Controller
         }
 
         //prevent unique booking by same user for same event
-        $booking = Book::where('user_id', $request->user_id)->where('event_id', $event_id)->exists();
+        $booking = Book::where('user_id', Auth::id())->where('event_id', $event_id)->exists();
         if ($booking) {
             return response()->json([
                 'success' => false,
@@ -43,7 +43,7 @@ class BookController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'No available seats for this event.'
-            ], 200);
+            ], 409);
         }
 
         $user = Auth::user();

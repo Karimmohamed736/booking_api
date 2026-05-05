@@ -31,7 +31,6 @@ Route::middleware('auth:sanctum')->group(function(){
 Route::controller(CategoryController::class)->group(function () {
     Route::get('all-categories', 'index');
     Route::get('show-category/{id}', 'show');
-    Route::post('create-category', 'create')->middleware('role:admin');
 });
 
 Route::middleware(['auth:sanctum', 'role:admin'])->controller(CategoryController::class)->group(function () {
@@ -54,19 +53,21 @@ Route::middleware(['auth:sanctum', 'role:admin', 'throttle:api'])->controller(Ev
 
     //Event
     Route::post('create-event','create'); //throttle for limit the number of request
-    Route::post('update-event/{event}','update');
+    Route::put('update-event/{event}','update');
     Route::delete('delete-event/{event}','delete');
 });
 
-Route::middleware('auth:sanctum', 'role:user')->group(function(){
+Route::middleware(['auth:sanctum', 'role:user'])->group(function(){
     Route::post('book-event/{event_id}',[BookController::class,'bookEvent']);
 });
 
 //payment
+Route::middleware(['auth:sanctum', 'role:user'])->group(function(){
 Route::post('/payment/process', [PaymentController::class, 'paymentProcess']);
+});
 Route::post('/payment/callback', [PaymentController::class, 'callBack']);
 
-Route::get('/payment/success', [PaymentController::class, 'success']);
+Route::get('/payment/success', [PaymentController::class, 'success'])->name('payment.success');
 
-Route::get('/payment/failed', [PaymentController::class, 'failed']);
+Route::get('/payment/failed', [PaymentController::class, 'failed'])->name('payment.failed');
 
