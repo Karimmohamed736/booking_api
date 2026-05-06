@@ -103,16 +103,16 @@ class BookController extends Controller
             ], 404);
         }
 
-        if ($booking->status === 'cancelled') {
+        if ($booking->status === 'rejected') {
             return response()->json([
                 'success' => false,
-                'message' => 'Booking is already cancelled.',
+                'message' => 'Booking is already Cancelled',
             ], 409);
         }
 
-        $booking->event->increment('available_seats');
+        $booking->event->increment('available_seats'); // Increase available seats in the event
 
-        $booking->update(['status' => 'cancelled']);
+        $booking->update(['status' => 'rejected']); // Update booking status to rejected
 
         return response()->json([
             'success' => true,
