@@ -127,7 +127,9 @@ Tokens are issued on `register` and `login` and must be included in every authen
 
 | Method | Endpoint | Role | Description |
 |---|---|---|---|
-| POST | `/api/events/{event_id}/book` | User | Book an event |
+| POST | `/api/events/{event_id}/book` | User | Book an event            |
+| GET    | `/api/my-bookings`        | User | List current user bookings |
+| DELETE | `/api/bookings/{id}`      | User | Cancel a booking           |
 
 **Business Rules:**
 - A user cannot book the same event twice
