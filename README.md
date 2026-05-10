@@ -1,6 +1,6 @@
 # 🎟️ Booking API
 
-A RESTful API built with **Laravel 11** for managing event bookings with authentication, role-based access control, and online payment via **Paymob**.
+A RESTful API built with **Laravel 13** for managing event bookings with authentication, role-based access control, and online payment via **Paymob**.
 
 ---
 
