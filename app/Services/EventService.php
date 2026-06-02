@@ -4,26 +4,25 @@ namespace App\Services;
 
 use App\Models\Event;
 
-
-
 class EventService
 {
-
     public function index()
     {
-        return Event::Available()->get();
+        return Cache::remember('events', 60, function () {
+            return Event::Available()->get();
+
+        });
     }
 
     public function allWithCategory()
     {
-       return Event::with('category')->get();  //Eager Loading
+        return Event::with('category')->get();  // Eager Loading
     }
 
     public function create(array $data)
     {
         return Event::create($data);
     }
-
 
     public function show($id)
     {
@@ -35,9 +34,10 @@ class EventService
         return Event::with('category')->find($id);
     }
 
-    public function update(Event $event,array $data)
+    public function update(Event $event, array $data)
     {
         $event->update($data);
+
         return $event;
     }
 
