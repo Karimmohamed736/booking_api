@@ -19,7 +19,12 @@ class PaymentController extends Controller
     public function paymentProcess(Request $request)
     {
 
-        return $this->paymentGateway->sendPayment($request);
+        $result = $this->paymentGateway->sendPayment($request);
+        return response()->json([
+        'success'  => $result['success'],
+        'url'      => $result['url'],
+        'order_id' => $result['order_id'],
+    ], $result['success'] ? 200 : 422);
     }
 
     public function callBack(Request $request): \Illuminate\Http\RedirectResponse

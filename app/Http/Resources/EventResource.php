@@ -21,7 +21,7 @@ class EventResource extends JsonResource
             'description' => $this->description,
             'location' => $this->location,
             'start_date' => $this->start_date,
-            'available_seats' => $this->available_seats,
+            'available_seats' => $this->available_seats > 0 ? 'Available' : 'Sold Out', //show the user if there is available seat or sold out
             'images' => $this->getMedia('images')
             ->map(function ($media) {
                 return $media->getUrl(); //get link of image only without other details
